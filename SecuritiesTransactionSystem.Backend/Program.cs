@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using SecuritiesTransactionSystem.Backend.Filter;
+using SecuritiesTransactionSystem.Backend.Middleware;
 using SecuritiesTransactionSystem.Repository;
 using SecuritiesTransactionSystem.Repository.Data;
 using SecuritiesTransactionSystem.Repository.Interface;
@@ -11,7 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<UnifiedResponseFilter>();
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
@@ -38,6 +44,8 @@ builder.Services.AddHttpClient<IStockService, StockService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
