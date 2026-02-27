@@ -5,7 +5,7 @@ using SecuritiesTransactionSystem.Service.Interface;
 namespace SecuritiesTransactionSystem.Backend.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v1/[controller]")]
     public class StocksController : ControllerBase
     {
         private readonly ILogger<StocksController> _logger;
