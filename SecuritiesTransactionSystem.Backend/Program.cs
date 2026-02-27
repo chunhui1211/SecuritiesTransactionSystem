@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using SecuritiesTransactionSystem.Repository;
+using SecuritiesTransactionSystem.Repository.Data;
+using SecuritiesTransactionSystem.Repository.Interface;
 using SecuritiesTransactionSystem.Service;
 using SecuritiesTransactionSystem.Service.Interface;
 using System.Reflection;
@@ -31,7 +32,10 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddDbContext<TradingDbContext>(opt => opt.UseInMemoryDatabase("TradingDb"));
 
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
 builder.Services.AddHttpClient<IStockService, StockService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 var app = builder.Build();
 

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuritiesTransactionSystem
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuritiesTransactionSystem.Entity", "..\SecuritiesTransactionSystem.Entity\SecuritiesTransactionSystem.Entity.csproj", "{BCDE3A1C-A4DA-4AD9-A75D-01681FC92D34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuritiesTransactionSystem.Repository", "..\SecuritiesTransactionSystem.Repository\SecuritiesTransactionSystem.Repository.csproj", "{D89AC4CC-4F73-4FE0-B571-F4916327FB17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{BCDE3A1C-A4DA-4AD9-A75D-01681FC92D34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCDE3A1C-A4DA-4AD9-A75D-01681FC92D34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCDE3A1C-A4DA-4AD9-A75D-01681FC92D34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D89AC4CC-4F73-4FE0-B571-F4916327FB17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D89AC4CC-4F73-4FE0-B571-F4916327FB17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D89AC4CC-4F73-4FE0-B571-F4916327FB17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D89AC4CC-4F73-4FE0-B571-F4916327FB17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

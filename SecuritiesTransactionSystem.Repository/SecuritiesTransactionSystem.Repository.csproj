@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SecuritiesTransactionSystem.Repository\SecuritiesTransactionSystem.Repository.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SecuritiesTransactionSystem.Entity\SecuritiesTransactionSystem.Entity.csproj" />
   </ItemGroup>
 
 </Project>
