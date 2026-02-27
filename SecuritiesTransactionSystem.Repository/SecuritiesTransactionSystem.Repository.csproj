@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SecuritiesTransactionSystem.Entity\SecuritiesTransactionSystem.Entity.csproj" />
+    <ProjectReference Include="..\SecuritiesTransactionSystem.Domain\SecuritiesTransactionSystem.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36623.8 d17.14
+VisualStudioVersion = 17.14.36623.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuritiesTransactionSystem.Backend", "SecuritiesTransactionSystem.Backend.csproj", "{CC951020-EFFD-4C4D-9E97-F8F4C55C2200}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuritiesTransactionSystem.Service", "..\SecuritiesTransactionSystem.Service\SecuritiesTransactionSystem.Service.csproj", "{1C3B1CA6-500D-4543-9D2E-8B6A5755E231}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuritiesTransactionSystem.Entity", "..\SecuritiesTransactionSystem.Entity\SecuritiesTransactionSystem.Entity.csproj", "{BCDE3A1C-A4DA-4AD9-A75D-01681FC92D34}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuritiesTransactionSystem.Repository", "..\SecuritiesTransactionSystem.Repository\SecuritiesTransactionSystem.Repository.csproj", "{D89AC4CC-4F73-4FE0-B571-F4916327FB17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecuritiesTransactionSystem.Domain", "..\SecuritiesTransactionSystem.Domain\SecuritiesTransactionSystem.Domain.csproj", "{E5AAA0A0-AE90-934B-CAB3-749A974E1397}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +25,14 @@ Global
 		{1C3B1CA6-500D-4543-9D2E-8B6A5755E231}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C3B1CA6-500D-4543-9D2E-8B6A5755E231}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C3B1CA6-500D-4543-9D2E-8B6A5755E231}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BCDE3A1C-A4DA-4AD9-A75D-01681FC92D34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BCDE3A1C-A4DA-4AD9-A75D-01681FC92D34}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BCDE3A1C-A4DA-4AD9-A75D-01681FC92D34}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BCDE3A1C-A4DA-4AD9-A75D-01681FC92D34}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D89AC4CC-4F73-4FE0-B571-F4916327FB17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D89AC4CC-4F73-4FE0-B571-F4916327FB17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D89AC4CC-4F73-4FE0-B571-F4916327FB17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D89AC4CC-4F73-4FE0-B571-F4916327FB17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5AAA0A0-AE90-934B-CAB3-749A974E1397}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5AAA0A0-AE90-934B-CAB3-749A974E1397}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5AAA0A0-AE90-934B-CAB3-749A974E1397}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5AAA0A0-AE90-934B-CAB3-749A974E1397}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
