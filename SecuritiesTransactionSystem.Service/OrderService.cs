@@ -36,5 +36,10 @@ namespace SecuritiesTransactionSystem.Service
                 OrderTime = result.CreatedTime
             };
         }
+
+        public async Task<Order?> GetByIdAsync(Guid id)
+        {
+            return await _orderRepository.GetByIdAsync(id);
+        }
     }
 }

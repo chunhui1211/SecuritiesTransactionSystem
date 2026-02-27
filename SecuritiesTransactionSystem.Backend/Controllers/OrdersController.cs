@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SecuritiesTransactionSystem.Entity.DTOs;
 using SecuritiesTransactionSystem.Service.Interface;
 
@@ -24,6 +25,18 @@ namespace SecuritiesTransactionSystem.Backend.Controllers
         {
             var response = await _orderService.CreateOrderAsync(order);
             return Ok(response);
+        }
+
+        /// <summary>
+        /// 依照編號取得委託單
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOrderById(Guid id)
+        {
+            var order = await _orderService.GetByIdAsync(id);
+            return order == null ? NotFound() : Ok(order);
         }
     }
 }

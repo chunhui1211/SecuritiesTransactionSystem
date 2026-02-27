@@ -24,5 +24,10 @@ namespace SecuritiesTransactionSystem.Repository
             await _context.SaveChangesAsync();
             return order;
         }
+
+        public async Task<Order?> GetByIdAsync(Guid id)
+        {
+            return await _context.Orders.FindAsync(id);
+        }
     }
 }

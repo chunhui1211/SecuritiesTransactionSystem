@@ -10,5 +10,6 @@ namespace SecuritiesTransactionSystem.Repository.Interface
     public interface IOrderRepository
     {
         Task<Order> AddAsync(Order order);
+        Task<Order?> GetByIdAsync(Guid id);
     }
 }
