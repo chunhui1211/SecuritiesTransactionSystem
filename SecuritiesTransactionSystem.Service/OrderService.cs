@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using SecuritiesTransactionSystem.Entity.DTOs;
+using SecuritiesTransactionSystem.Entity.Exceptions;
 using SecuritiesTransactionSystem.Entity.Model;
+using SecuritiesTransactionSystem.Entity.Validator;
 using SecuritiesTransactionSystem.Repository.Interface;
 using SecuritiesTransactionSystem.Service.Interface;
 
@@ -23,7 +25,14 @@ namespace SecuritiesTransactionSystem.Service
 
             try
             {
-                ValidateOrderRequest(request);
+                var validator = new CreateOrderRequestValidator();
+                var validationResult = await validator.ValidateAsync(request);
+                if (!validationResult.IsValid)
+                {
+                    var error = validationResult.Errors.First().ErrorMessage;
+                    _logger.LogWarning("下單參數驗證失敗: {Msg}", error);
+                    throw new BusinessException(error);
+                }
 
                 var orderEntity = new Order
                 {
@@ -49,21 +58,6 @@ namespace SecuritiesTransactionSystem.Service
             {
                 _logger.LogError(ex, "執行下單時發生未預期錯誤。Symbol: {Symbol}", request.Symbol);
                 throw;
-            }
-        }
-
-        private void ValidateOrderRequest(CreateOrderRequest request)
-        {
-            if (request.Quantity <= 0)
-            {
-                _logger.LogWarning("下單失敗：數量無效 ({Quantity})", request.Quantity);
-                throw new ArgumentException("數量必須大於 0");
-            }
-
-            if (request.Price <= 0)
-            {
-                _logger.LogWarning("下單失敗：價格無效 ({Price})", request.Price);
-                throw new ArgumentException("價格必須大於 0");
             }
         }
 

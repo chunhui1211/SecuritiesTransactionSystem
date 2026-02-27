@@ -1,5 +1,5 @@
-﻿using SecuritiesTransactionSystem.Backend.Controllers;
-using SecuritiesTransactionSystem.Entity.DTOs;
+﻿using SecuritiesTransactionSystem.Entity.DTOs;
+using SecuritiesTransactionSystem.Entity.Exceptions;
 
 namespace SecuritiesTransactionSystem.Backend.Middleware
 {
@@ -23,18 +23,27 @@ namespace SecuritiesTransactionSystem.Backend.Middleware
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex, " Exception: {Message}", ex.Message);
-
                 context.Response.ContentType = "application/json";
-                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
-                var response = new ApiResponse<object>
+                var (statusCode, message) = ex switch
                 {
-                    Success = false,
-                    Message = "伺服器內部錯誤，請聯絡系統管理員。"
+                    NotFoundException nfx => (StatusCodes.Status404NotFound, nfx.Message),
+                    BusinessException bx => (StatusCodes.Status400BadRequest, bx.Message),
+                    _ => (StatusCodes.Status500InternalServerError, "伺服器內部錯誤")
                 };
 
-                await context.Response.WriteAsJsonAsync(response);
+                context.Response.StatusCode = statusCode;
+
+                if (statusCode >= 500)
+                    _logger.LogError(ex, "伺服器內部錯誤");
+                else
+                    _logger.LogWarning("業務錯誤: {Msg}", message);
+
+                await context.Response.WriteAsJsonAsync(new ApiResponse<object>
+                {
+                    Success = false,
+                    Message = message
+                });
             }
         }
     }
