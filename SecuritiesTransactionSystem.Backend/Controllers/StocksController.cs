@@ -8,7 +8,6 @@ namespace SecuritiesTransactionSystem.Backend.Controllers
     [Route("api/v1/[controller]")]
     public class StocksController : ControllerBase
     {
-        private readonly ILogger<StocksController> _logger;
         private readonly IStockService _stockService;
 
         private static readonly List<Stock> _mockStocks = new()
@@ -17,9 +16,8 @@ namespace SecuritiesTransactionSystem.Backend.Controllers
             new Stock { Symbol = "2317", Name = "鴻海" }
         };
 
-        public StocksController(ILogger<StocksController> logger, IStockService stockService)
+        public StocksController(IStockService stockService)
         {
-            _logger = logger;
             _stockService = stockService;
         }
 
