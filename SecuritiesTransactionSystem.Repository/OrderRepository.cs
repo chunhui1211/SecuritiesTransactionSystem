@@ -1,4 +1,5 @@
-﻿using SecuritiesTransactionSystem.Entity.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using SecuritiesTransactionSystem.Entity.Model;
 using SecuritiesTransactionSystem.Repository.Data;
 using SecuritiesTransactionSystem.Repository.Interface;
 using System;
@@ -28,6 +29,13 @@ namespace SecuritiesTransactionSystem.Repository
         public async Task<Order?> GetByIdAsync(Guid id)
         {
             return await _context.Orders.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<Order>> GetBySymbolAsync(string symbol)
+        {
+            return await _context.Orders
+                .Where(o => o.Symbol == symbol)
+                .ToListAsync();
         }
     }
 }

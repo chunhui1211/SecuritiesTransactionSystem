@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SecuritiesTransactionSystem.Entity.DTOs;
+using SecuritiesTransactionSystem.Entity.Enums;
 using SecuritiesTransactionSystem.Entity.Exceptions;
 using SecuritiesTransactionSystem.Entity.Model;
 using SecuritiesTransactionSystem.Entity.Validator;
@@ -25,6 +27,7 @@ namespace SecuritiesTransactionSystem.Service
 
             try
             {
+                // 基本參數驗證
                 var validator = new CreateOrderRequestValidator();
                 var validationResult = await validator.ValidateAsync(request);
                 if (!validationResult.IsValid)
@@ -32,6 +35,25 @@ namespace SecuritiesTransactionSystem.Service
                     var error = validationResult.Errors.First().ErrorMessage;
                     _logger.LogWarning("下單參數驗證失敗: {Msg}", error);
                     throw new BusinessException(error);
+                }
+
+                // 針對賣出進行庫存檢查
+                if (request.Side == SideType.Sell)
+                {
+                    // 取得該代號的所有歷史委託單
+                    var userOrders = await GetBySymbolAsync(request.Symbol);
+
+                    // 計算目前持股庫存
+                    int currentStockCount = userOrders
+                        .Where(o => o.Side == SideType.Buy).Sum(o => o.Quantity) -
+                        userOrders
+                        .Where(o => o.Side == SideType.Sell).Sum(o => o.Quantity);
+
+                    if (currentStockCount < request.Quantity)
+                    {
+                        _logger.LogWarning("下單失敗：庫存不足。目前持有: {Current}, 欲賣出: {Request}", currentStockCount, request.Quantity);
+                        throw new BusinessException("持股餘額不足");
+                    }
                 }
 
                 var orderEntity = new Order
@@ -64,6 +86,11 @@ namespace SecuritiesTransactionSystem.Service
         public async Task<Order?> GetByIdAsync(Guid id)
         {
             return await _orderRepository.GetByIdAsync(id);
+        }
+
+        private async Task<IEnumerable<Order>> GetBySymbolAsync(string symbol)
+        {
+            return await _orderRepository.GetBySymbolAsync(symbol);
         }
     }
 }

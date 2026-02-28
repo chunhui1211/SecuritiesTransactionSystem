@@ -11,5 +11,6 @@ namespace SecuritiesTransactionSystem.Repository.Interface
     {
         Task<Order> AddAsync(Order order);
         Task<Order?> GetByIdAsync(Guid id);
+        Task<IEnumerable<Order>> GetBySymbolAsync(string symbol);
     }
 }
