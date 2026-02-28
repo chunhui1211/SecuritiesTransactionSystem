@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SecuritiesTransactionSystem.Entity.DTOs;
 using SecuritiesTransactionSystem.Service.Interface;
+using System.Security.Claims;
 
 namespace SecuritiesTransactionSystem.Backend.Controllers
 {
+    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase
@@ -23,6 +25,7 @@ namespace SecuritiesTransactionSystem.Backend.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest order)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var response = await _orderService.CreateOrderAsync(order);
             return Ok(response);
         }
