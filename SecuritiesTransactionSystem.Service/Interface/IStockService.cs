@@ -1,4 +1,5 @@
-﻿using SecuritiesTransactionSystem.Entity.Model;
+﻿using SecuritiesTransactionSystem.Domain.DTOs;
+using SecuritiesTransactionSystem.Entity.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,12 @@ namespace SecuritiesTransactionSystem.Service.Interface
         /// <param name="symbol"></param>
         /// <returns></returns>
         Task<Stock?> GetLivePriceAsync(string symbol);
+
+        /// <summary>
+        /// 關鍵字搜尋股票
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<PagedResult<Stock>> SearckStockAsync(StockSearchRequest request);
     }
 }

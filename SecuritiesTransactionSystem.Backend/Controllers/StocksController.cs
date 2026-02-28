@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SecuritiesTransactionSystem.Entity.Model;
+using SecuritiesTransactionSystem.Domain.DTOs;
 using SecuritiesTransactionSystem.Service.Interface;
 
 namespace SecuritiesTransactionSystem.Backend.Controllers
@@ -9,12 +9,6 @@ namespace SecuritiesTransactionSystem.Backend.Controllers
     public class StocksController : ControllerBase
     {
         private readonly IStockService _stockService;
-
-        private static readonly List<Stock> _mockStocks = new()
-        {
-            new Stock { Symbol = "2330", Name = "台積電" },
-            new Stock { Symbol = "2317", Name = "鴻海" }
-        };
 
         public StocksController(IStockService stockService)
         {
@@ -36,16 +30,13 @@ namespace SecuritiesTransactionSystem.Backend.Controllers
         /// <summary>
         /// 關鍵字搜尋股票
         /// </summary>
-        /// <param name="symbol"></param>
-        /// <param name="keyword"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Search([FromQuery] string? symbol, [FromQuery] string? keyword)
+        public async Task<IActionResult> Search([FromQuery] StockSearchRequest request)
         {
-            var query = _mockStocks.AsQueryable();
-            if (!string.IsNullOrEmpty(symbol)) query = query.Where(s => s.Symbol == symbol);
-            if (!string.IsNullOrEmpty(keyword)) query = query.Where(s => s.Name.Contains(keyword));
-            return Ok(query.ToList());
+            var stock = await _stockService.SearckStockAsync(request);
+            return stock == null ? NotFound() : Ok(stock);
         }
     }
 }
