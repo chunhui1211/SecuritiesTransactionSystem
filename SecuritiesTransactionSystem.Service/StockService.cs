@@ -1,4 +1,7 @@
-﻿using SecuritiesTransactionSystem.Entity.Model;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
+using SecuritiesTransactionSystem.Domain.Config;
+using SecuritiesTransactionSystem.Entity.Model;
 using SecuritiesTransactionSystem.Service.Interface;
 using System.Text.Json;
 
@@ -7,11 +10,44 @@ namespace SecuritiesTransactionSystem.Service
     public class StockService : IStockService
     {
         private readonly HttpClient _httpClient;
-        public StockService(HttpClient httpClient) => _httpClient = httpClient;
+        private readonly IMemoryCache _cache;
+        private readonly MemoryCacheEntryOptions _cacheOptions;
+        public StockService(HttpClient httpClient, IMemoryCache cache, IOptions<CacheSettings> cacheSettings)
+        {
+            _httpClient = httpClient;
+            _cache = cache;
+            var settings = cacheSettings.Value;
+            _cacheOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromSeconds(settings.StockPriceExpirationSeconds))
+                .SetSlidingExpiration(TimeSpan.FromSeconds(settings.StockPriceSlidingExpirationSeconds))
+                .SetPriority(CacheItemPriority.Normal);
+        }
 
         public async Task<Stock?> GetLivePriceAsync(string symbol)
         {
-            // 串接 TWSE API
+            string cacheKey = $"Stock_{symbol}";
+            if (_cache.TryGetValue(cacheKey, out Stock? cachedStock))
+            {
+                return cachedStock;
+            }
+
+            var stock = await FetchStockFromTwseAsync(symbol);
+
+            if (stock != null)
+            {
+                _cache.Set(cacheKey, stock, _cacheOptions);
+            }
+
+            return stock;
+        }
+
+        /// <summary>
+        /// 串接 TWSE API
+        /// </summary>
+        /// <param name="symbol"></param>
+        /// <returns></returns>
+        private async Task<Stock?> FetchStockFromTwseAsync(string symbol)
+        {
             var url = $"https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_{symbol}.tw";
             var response = await _httpClient.GetAsync(url);
 

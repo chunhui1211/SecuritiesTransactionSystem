@@ -2,6 +2,7 @@
 using Microsoft.OpenApi.Models;
 using SecuritiesTransactionSystem.Backend.Filter;
 using SecuritiesTransactionSystem.Backend.Middleware;
+using SecuritiesTransactionSystem.Domain.Config;
 using SecuritiesTransactionSystem.Repository;
 using SecuritiesTransactionSystem.Repository.Data;
 using SecuritiesTransactionSystem.Repository.Interface;
@@ -12,6 +13,10 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.Configure<CacheSettings>(builder.Configuration.GetSection("CacheSettings"));
+
+builder.Services.AddMemoryCache();
 
 builder.Services.AddControllers(options =>
 {
@@ -35,12 +40,13 @@ builder.Services.AddSwaggerGen(options =>
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
+builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<TradingDbContext>(opt => opt.UseInMemoryDatabase("TradingDb"));
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
-builder.Services.AddHttpClient<IStockService, StockService>();
+builder.Services.AddScoped<IStockService, StockService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
 var app = builder.Build();
